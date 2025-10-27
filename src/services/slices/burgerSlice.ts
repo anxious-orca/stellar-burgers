@@ -12,7 +12,7 @@ export type TBurgerState = {
   mains: TIngredient[];
   sauces: TIngredient[];
   isLoading: boolean;
-  error: string | null | undefined;
+  error: string | null;
 };
 
 const initialBurgerState: TBurgerState = {
@@ -31,7 +31,6 @@ export const burgerSlice = createSlice({
     selectBuns: (sliceState) => sliceState.buns,
     selectMains: (sliceState) => sliceState.mains,
     selectSauces: (sliceState) => sliceState.sauces,
-    selectIngredients: (sliceState) => [],
     selectIsLoading: (sliceState) => sliceState.isLoading,
     selectError: (sliceState) => sliceState.error
   },
@@ -43,7 +42,7 @@ export const burgerSlice = createSlice({
       })
       .addCase(getIngredients.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? 'Request failed';
       })
       .addCase(getIngredients.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -72,5 +71,10 @@ export const selectIngredients = createSelector(
   [selectBuns, selectMains, selectSauces],
   (buns, mains, sauces) => [...buns, ...mains, ...sauces]
 );
+
+export const selectIngredientById = (id: string) =>
+  createSelector([selectIngredients], (ingredients) =>
+    ingredients.find((ingredient) => ingredient._id === id)
+  );
 
 export const burger = burgerSlice.reducer;
