@@ -5,18 +5,25 @@ import styles from './constructor-page.module.css';
 import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { selectIsLoading } from '../../services/slices/burgerSlice';
 
 export const ConstructorPage: FC = () => {
-  /** TODO: взять переменную из стора */
-  const isIngredientsLoading = false;
+  const isIngredientsLoading = useSelector<boolean>(selectIsLoading);
+
+  useEffect(() => {
+    console.log('Component mounted');
+    return () => {
+      console.log('Component unmounted');
+    };
+  }, []);
 
   return (
-    <>
+    <main className={styles.containerMain}>
       {isIngredientsLoading ? (
         <Preloader />
       ) : (
-        <main className={styles.containerMain}>
+        <>
           <h1
             className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}
           >
@@ -26,8 +33,8 @@ export const ConstructorPage: FC = () => {
             <BurgerIngredients />
             <BurgerConstructor />
           </div>
-        </main>
+        </>
       )}
-    </>
+    </main>
   );
 };
