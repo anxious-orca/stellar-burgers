@@ -74,3 +74,8 @@
   width: 100%;
   max-width: 536px;
 }
+
+.error {
+  color: #ff0000;
+  text-align: center;
+}

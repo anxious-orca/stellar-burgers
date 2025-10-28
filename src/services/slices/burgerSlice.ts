@@ -1,11 +1,23 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
-import { TIngredient } from '@utils-types';
+import { TApiError, TIngredient } from '@utils-types';
 
-export const getIngredients = createAsyncThunk('ingredients/getAll', async () =>
-  getIngredientsApi()
-);
+export const getIngredients = createAsyncThunk<
+  TIngredient[],
+  void,
+  { rejectValue: TApiError }
+>('ingredients/getAll', async (_, thunkAPI) => {
+  try {
+    const data = await getIngredientsApi();
+    return data;
+  } catch (err: any) {
+    return thunkAPI.rejectWithValue({
+      success: false,
+      message: err?.message || 'Не удалось загрузить ингредиенты :('
+    });
+  }
+});
 
 export type TBurgerState = {
   buns: TIngredient[];
@@ -31,8 +43,8 @@ export const burgerSlice = createSlice({
     selectBuns: (sliceState) => sliceState.buns,
     selectMains: (sliceState) => sliceState.mains,
     selectSauces: (sliceState) => sliceState.sauces,
-    selectIsLoading: (sliceState) => sliceState.isLoading,
-    selectError: (sliceState) => sliceState.error
+    selectIngredientsIsLoading: (sliceState) => sliceState.isLoading,
+    selectIngredientsError: (sliceState) => sliceState.error
   },
   extraReducers: (builder) => {
     builder
@@ -42,7 +54,8 @@ export const burgerSlice = createSlice({
       })
       .addCase(getIngredients.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message ?? 'Request failed';
+        state.error =
+          action.payload?.message ?? 'Не удалось загрузить ингредиенты :(';
       })
       .addCase(getIngredients.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -63,8 +76,8 @@ export const {
   selectBuns,
   selectMains,
   selectSauces,
-  selectIsLoading,
-  selectError
+  selectIngredientsIsLoading,
+  selectIngredientsError
 } = burgerSlice.selectors;
 
 export const selectIngredients = createSelector(

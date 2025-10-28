@@ -1,7 +1,5 @@
 import '../../index.css';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-
-import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import {
   ConstructorPage,
@@ -18,6 +16,9 @@ import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/slices/burgerSlice';
 import { getFeeds } from '../../services/slices/feedsSlice';
+import { ProtectedRoute } from '../ProtectedRoute';
+import { getCookie } from '../../utils/cookie';
+import { getUser, setAuthChecked } from '../../services/slices/userSlice';
 
 const App = () => {
   const location = useLocation();
@@ -28,6 +29,16 @@ const App = () => {
   useEffect(() => {
     dispatch(getIngredients());
     dispatch(getFeeds());
+
+    if (getCookie('accessToken')) {
+      dispatch(getUser())
+        .unwrap()
+        .finally(() => {
+          dispatch(setAuthChecked(true));
+        });
+    } else {
+      dispatch(setAuthChecked(true));
+    }
   }, [dispatch]);
 
   return (
@@ -37,14 +48,43 @@ const App = () => {
           <Route index element={<ConstructorPage />} />
           <Route path='*' element={<NotFound404 />} />
           <Route path='feed' element={<Feed />} />
-          <Route path='profile' element={<Profile />} />
-          <Route path='profile/orders' element={<ProfileOrders />} />
-          <Route path='login' element={<Login />} />
+          <Route
+            path='profile'
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='profile/orders'
+            element={
+              <ProtectedRoute>
+                <ProfileOrders />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='login'
+            element={
+              <ProtectedRoute onlyUnAuth>
+                <Login />
+              </ProtectedRoute>
+            }
+          />
           <Route path='register' element={<Register />} />
           <Route path='forgot-password' element={<ForgotPassword />} />
           <Route path='reset-password' element={<ResetPassword />} />
           <Route path='ingredients/:id' element={<IngredientDetails />} />
           <Route path='feed/:number' element={<OrderInfo />} />
+          <Route
+            path='profile/orders/:number'
+            element={
+              <ProtectedRoute>
+                <OrderInfo />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
 
@@ -69,8 +109,10 @@ const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title={''} onClose={() => null}>
-                <OrderInfo />
+              <Modal title={''} onClose={() => navigate(-1)}>
+                <ProtectedRoute>
+                  <OrderInfo />
+                </ProtectedRoute>
               </Modal>
             }
           />

@@ -38,3 +38,5 @@ export type TUser = {
 };
 
 export type TTabMode = 'bun' | 'sauce' | 'main';
+
+export type TApiError = { success: boolean; message: string };

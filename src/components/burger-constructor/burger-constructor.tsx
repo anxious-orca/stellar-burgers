@@ -1,22 +1,28 @@
 import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '@utils-types';
+import { TConstructorIngredient, TOrder } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import {
-  createOrder,
+  orderBurger,
   selectConstructor,
   selectOrderModalData,
   selectOrderRequest,
   TConstructorState,
-  clearOrderModal
+  clearOrderModal,
+  selectOrderError
 } from '../../services/slices/constructorSlice';
+import { useNavigate } from 'react-router-dom';
+import { selectIsAuthenticated } from '../../services/slices/userSlice';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector<boolean>(selectIsAuthenticated);
   const { bun, constructorIngredients } =
     useSelector<TConstructorState>(selectConstructor);
-  const orderModalData = useSelector(selectOrderModalData);
-  const orderRequest = useSelector(selectOrderRequest);
+  const orderModalData = useSelector<TOrder | null>(selectOrderModalData);
+  const orderRequest = useSelector<boolean>(selectOrderRequest);
+  const error = useSelector<string | null>(selectOrderError);
   const constructorItems = {
     bun: bun,
     ingredients: constructorIngredients
@@ -24,12 +30,16 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
     const ingredientIds = [
       constructorItems.bun._id,
       ...constructorIngredients.map((i) => i._id),
       constructorItems.bun._id
     ];
-    dispatch(createOrder(ingredientIds));
+    dispatch(orderBurger(ingredientIds));
   };
 
   const closeOrderModal = () => {
@@ -54,6 +64,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      error={error}
     />
   );
 };

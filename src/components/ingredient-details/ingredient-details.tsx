@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import styles from './ingredient-details.module.css';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { useParams } from 'react-router-dom';
@@ -6,7 +7,7 @@ import { useSelector } from '../../services/store';
 import { TIngredient } from '@utils-types';
 import {
   selectIngredientById,
-  selectIsLoading
+  selectIngredientsIsLoading
 } from '../../services/slices/burgerSlice';
 
 export const IngredientDetails: FC = () => {
@@ -14,10 +15,18 @@ export const IngredientDetails: FC = () => {
   const ingredientData = useSelector<TIngredient | undefined>(
     id ? selectIngredientById(id) : () => undefined
   );
-  const isIngredientsLoading = useSelector<boolean>(selectIsLoading);
+  const isIngredientsLoading = useSelector<boolean>(selectIngredientsIsLoading);
 
-  if (!ingredientData || isIngredientsLoading) {
+  if (isIngredientsLoading) {
     return <Preloader />;
+  }
+
+  if (!ingredientData) {
+    return (
+      <p className={`${styles.error} text text_type_main-default pb-6`}>
+        Ингредиент не найден
+      </p>
+    );
   }
 
   return <IngredientDetailsUI ingredientData={ingredientData} />;

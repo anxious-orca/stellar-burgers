@@ -11,9 +11,9 @@ import { OrderCardUIProps } from './type';
 import { OrderStatus } from '@components';
 
 export const OrderCardUI: FC<OrderCardUIProps> = memo(
-  ({ orderInfo, maxIngredients, locationState }) => (
+  ({ orderInfo, maxIngredients, locationState, basePath }) => (
     <Link
-      to={`/feed/${orderInfo.number.toString()}`}
+      to={`${basePath}/${orderInfo.number.toString()}`}
       state={{ backgroundLocation: locationState.background }}
       className={`p-6 mb-4 mr-2 ${styles.order}`}
     >

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import {
   Button,
   ConstructorElement,
@@ -16,7 +16,8 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
   price,
   orderModalData,
   onOrderClick,
-  closeOrderModal
+  closeOrderModal,
+  error
 }) => (
   <section className={styles.burger_constructor}>
     {constructorItems.bun ? (
@@ -98,7 +99,13 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
         onClose={closeOrderModal}
         title={orderRequest ? 'Оформляем заказ...' : ''}
       >
-        <OrderDetailsUI orderNumber={orderModalData.number} />
+        {!error ? (
+          <OrderDetailsUI orderNumber={orderModalData.number} />
+        ) : (
+          <p className={`${styles.error} text text_type_main-default pb-6`}>
+            {error}
+          </p>
+        )}
       </Modal>
     )}
   </section>

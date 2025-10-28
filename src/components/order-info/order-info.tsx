@@ -1,29 +1,38 @@
 import { FC, useEffect, useMemo } from 'react';
+import styles from './order-info.module.css';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient, TOrder } from '@utils-types';
 import { useParams } from 'react-router-dom';
+import { selectFeedsIsLoading } from '../../services/slices/feedsSlice';
+import { useDispatch, useSelector } from '../../services/store';
 import {
-  getFeeds,
-  selectFeedsIsLoading,
-  selectOrderById
-} from '../../services/slices/feedsSlice';
-import { useSelector } from '../../services/store';
-import {
-  getIngredients,
   selectIngredients,
-  selectIsLoading
+  selectIngredientsIsLoading
 } from '../../services/slices/burgerSlice';
+import {
+  getOrderByNumber,
+  selectOrdersError,
+  selectOrdersIsLoading,
+  selectSelectedOrder
+} from '../../services/slices/ordersSlice';
 
 export const OrderInfo: FC = () => {
   const { number } = useParams<{ number: string }>();
+  const dispatch = useDispatch();
 
-  const orderData = useSelector<TOrder | undefined>(
-    number ? selectOrderById(number) : () => undefined
-  );
+  const orderData = useSelector<TOrder | null>(selectSelectedOrder);
   const ingredients = useSelector<TIngredient[]>(selectIngredients);
   const isFeedsLoading = useSelector<boolean>(selectFeedsIsLoading);
-  const isIngredientsLoading = useSelector<boolean>(selectIsLoading);
+  const isOrdersLoading = useSelector<boolean>(selectOrdersIsLoading);
+  const ordersError = useSelector<string | null>(selectOrdersError);
+  const isIngredientsLoading = useSelector<boolean>(selectIngredientsIsLoading);
+
+  useEffect(() => {
+    if (number) {
+      dispatch(getOrderByNumber(Number(number)));
+    }
+  }, [number, dispatch]);
 
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
@@ -66,8 +75,18 @@ export const OrderInfo: FC = () => {
     };
   }, [orderData, ingredients]);
 
-  if (!orderInfo || isFeedsLoading || isIngredientsLoading) {
+  if (isFeedsLoading || isIngredientsLoading || isOrdersLoading) {
     return <Preloader />;
+  }
+
+  const showError = ordersError ? ordersError : 'Заказ не найден';
+
+  if (ordersError || !orderInfo) {
+    return (
+      <p className={`${styles.error} text text_type_main-default pb-6`}>
+        {showError}
+      </p>
+    );
   }
 
   return <OrderInfoUI orderInfo={orderInfo} />;

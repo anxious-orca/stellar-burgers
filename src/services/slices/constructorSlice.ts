@@ -1,15 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { orderBurgerApi } from '@api';
-import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
+import { orderBurgerApi, TNewOrderResponse } from '@api';
+import {
+  TApiError,
+  TConstructorIngredient,
+  TIngredient,
+  TOrder
+} from '@utils-types';
 
-export const createOrder = createAsyncThunk(
-  'burgerConstructor/createOrder',
-  async (ingredientsIds: string[]) => {
-    const response = await orderBurgerApi(ingredientsIds);
-    return response.order;
+export const orderBurger = createAsyncThunk<
+  TNewOrderResponse,
+  string[],
+  { rejectValue: TApiError }
+>('burger/order', async (ingredientsIds, thunkAPI) => {
+  try {
+    const data = await orderBurgerApi(ingredientsIds);
+    return data;
+  } catch (err: any) {
+    return thunkAPI.rejectWithValue({
+      success: false,
+      message: err?.message || 'Не удалось создать заказ'
+    });
   }
-);
+});
 
 export type TConstructorState = {
   bun: TIngredient | null;
@@ -70,23 +83,24 @@ export const constructorSlice = createSlice({
   selectors: {
     selectConstructor: (sliceState) => sliceState,
     selectOrderModalData: (sliceState) => sliceState.orderModalData,
-    selectOrderRequest: (sliceState) => sliceState.orderRequest
+    selectOrderRequest: (sliceState) => sliceState.orderRequest,
+    selectOrderError: (sliceState) => sliceState.error
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createOrder.pending, (state) => {
+      .addCase(orderBurger.pending, (state) => {
         state.orderRequest = true;
         state.error = null;
       })
-      .addCase(createOrder.fulfilled, (state, action) => {
+      .addCase(orderBurger.fulfilled, (state, action) => {
         state.orderRequest = false;
-        state.orderModalData = action.payload;
+        state.orderModalData = action.payload.order;
         state.constructorIngredients = [];
         state.bun = null;
       })
-      .addCase(createOrder.rejected, (state, action) => {
+      .addCase(orderBurger.rejected, (state, action) => {
         state.orderRequest = false;
-        state.error = action.error.message ?? 'Order failed';
+        state.error = action.payload?.message ?? 'Не удалось создать заказ';
       });
   }
 });
@@ -100,7 +114,11 @@ export const {
   clearOrderModal
 } = constructorSlice.actions;
 
-export const { selectConstructor, selectOrderModalData, selectOrderRequest } =
-  constructorSlice.selectors;
+export const {
+  selectConstructor,
+  selectOrderModalData,
+  selectOrderRequest,
+  selectOrderError
+} = constructorSlice.selectors;
 
 export const burgerConstructor = constructorSlice.reducer;

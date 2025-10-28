@@ -19,3 +19,8 @@
   height: 100%;
   overflow: hidden;
 }
+
+.error {
+  color: #ff0000;
+  text-align: center;
+}

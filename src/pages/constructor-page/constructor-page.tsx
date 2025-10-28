@@ -6,10 +6,22 @@ import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC } from 'react';
-import { selectIsLoading } from '../../services/slices/burgerSlice';
+import {
+  selectIngredientsError,
+  selectIngredientsIsLoading
+} from '../../services/slices/burgerSlice';
 
 export const ConstructorPage: FC = () => {
-  const isIngredientsLoading = useSelector<boolean>(selectIsLoading);
+  const isIngredientsLoading = useSelector<boolean>(selectIngredientsIsLoading);
+  const error = useSelector<string | null>(selectIngredientsError);
+
+  if (error) {
+    return (
+      <p className={`${styles.error} text text_type_main-default pb-6`}>
+        {error}
+      </p>
+    );
+  }
 
   return (
     <main className={styles.containerMain}>

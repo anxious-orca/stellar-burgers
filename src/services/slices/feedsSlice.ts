@@ -1,11 +1,23 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getFeedsApi } from '@api';
-import { TOrder } from '@utils-types';
+import { getFeedsApi, TFeedsResponse } from '@api';
+import { TApiError, TOrder } from '@utils-types';
 
-export const getFeeds = createAsyncThunk('feeds/getAll', async () =>
-  getFeedsApi()
-);
+export const getFeeds = createAsyncThunk<
+  TFeedsResponse,
+  void,
+  { rejectValue: TApiError }
+>('feeds/getAll', async (_, thunkAPI) => {
+  try {
+    const data = await getFeedsApi();
+    return data;
+  } catch (err: any) {
+    return thunkAPI.rejectWithValue({
+      success: false,
+      message: err?.message || 'Не удалось загрузить ленту заказов :('
+    });
+  }
+});
 
 export type TFeedsState = {
   orders: TOrder[];
@@ -45,7 +57,8 @@ export const feedsSlice = createSlice({
       })
       .addCase(getFeeds.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message ?? 'Request failed';
+        state.error =
+          action.payload?.message ?? 'Не удалось загрузить ленту заказов :(';
       })
       .addCase(getFeeds.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -64,10 +77,5 @@ export const {
   selectFeedsIsLoading,
   selectFeedsError
 } = feedsSlice.selectors;
-
-export const selectOrderById = (orderNumber: string) =>
-  createSelector([selectOrders], (orders) =>
-    orders.find((order) => String(order.number) === orderNumber)
-  );
 
 export const feeds = feedsSlice.reducer;
