@@ -75,13 +75,11 @@ export const OrderInfo: FC = () => {
     };
   }, [orderData, ingredients]);
 
-  if (isFeedsLoading || isIngredientsLoading || isOrdersLoading) {
-    return <Preloader />;
-  }
-
   const showError = ordersError ? ordersError : 'Заказ не найден';
 
-  if (ordersError || !orderInfo) {
+  if (isFeedsLoading || isIngredientsLoading || isOrdersLoading) {
+    return <Preloader />;
+  } else if (ordersError || !orderInfo) {
     return (
       <p className={`${styles.error} text text_type_main-default pb-6`}>
         {showError}
