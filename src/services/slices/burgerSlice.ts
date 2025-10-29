@@ -2,7 +2,7 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 import { TApiError, TIngredient } from '@utils-types';
-import { getErrorMessage } from 'src/utils/errors';
+import { getErrorMessage } from '../../utils/errors';
 
 export const getIngredients = createAsyncThunk<
   TIngredient[],

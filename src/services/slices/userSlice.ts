@@ -13,7 +13,7 @@ import {
 } from '@api';
 import { TApiError, TUser } from '@utils-types';
 import { deleteCookie, setCookie } from '../../utils/cookie';
-import { getErrorMessage } from 'src/utils/errors';
+import { getErrorMessage } from '../../utils/errors';
 
 /* Async thunks */
 

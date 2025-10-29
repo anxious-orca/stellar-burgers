@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getOrderByNumberApi, getOrdersApi } from '@api';
 import { TApiError, TOrder } from '@utils-types';
-import { getErrorMessage } from 'src/utils/errors';
+import { getErrorMessage } from '../../utils/errors';
 
 export const getOrders = createAsyncThunk<
   TOrder[],

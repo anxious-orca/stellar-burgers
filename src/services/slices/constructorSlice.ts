@@ -7,7 +7,7 @@ import {
   TIngredient,
   TOrder
 } from '@utils-types';
-import { getErrorMessage } from 'src/utils/errors';
+import { getErrorMessage } from '../../utils/errors';
 
 export const orderBurger = createAsyncThunk<
   TNewOrderResponse,
