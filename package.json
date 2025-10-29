@@ -90,11 +90,11 @@
     "url-loader": "^4.1.1"
   },
   "scripts": {
-    "start": "npm run f && webpack serve --mode=development",
+    "start": "npm run lint:fix && webpack serve --mode=development",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
-    "f": "npm run lint -- --fix",
+    "lint:fix": "npm run lint -- --fix",
     "format": "prettier ./src --write"
   },
   "eslintConfig": {
