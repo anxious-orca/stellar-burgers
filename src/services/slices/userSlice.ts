@@ -144,8 +144,8 @@ export const userSlice = createSlice({
     selectIsAuthChecked: (sliceState) => sliceState.isAuthChecked,
     selectIsAuthenticated: (sliceState) => sliceState.isAuthenticated,
     selectUserData: (sliceState) => sliceState.data,
-    selectIsLoading: (sliceState) => sliceState.loading,
-    selectError: (sliceState) => sliceState.error
+    selectAuthIsLoading: (sliceState) => sliceState.loading,
+    selectAuthError: (sliceState) => sliceState.error
   },
   extraReducers: (builder) => {
     builder
@@ -237,8 +237,8 @@ export const {
   selectIsAuthChecked,
   selectIsAuthenticated,
   selectUserData,
-  selectIsLoading,
-  selectError
+  selectAuthIsLoading,
+  selectAuthError
 } = userSlice.selectors;
 
-export const feeds = userSlice.reducer;
+export const user = userSlice.reducer;

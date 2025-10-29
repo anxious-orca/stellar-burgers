@@ -3,9 +3,9 @@ import { RegisterUI } from '@ui-pages';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   registerUser,
-  selectError,
+  selectAuthError,
   selectIsAuthenticated,
-  selectIsLoading
+  selectAuthIsLoading
 } from '../../services/slices/userSlice';
 import { Navigate } from 'react-router-dom';
 
@@ -16,8 +16,8 @@ export const Register: FC = () => {
 
   const dispatch = useDispatch();
   const isAuthenticated = useSelector<boolean>(selectIsAuthenticated);
-  const error = useSelector<string | null>(selectError);
-  const loading = useSelector<boolean>(selectIsLoading);
+  const error = useSelector<string | null>(selectAuthError);
+  const loading = useSelector<boolean>(selectAuthIsLoading);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();

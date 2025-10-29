@@ -12,6 +12,7 @@ import {
   Register,
   ResetPassword
 } from '@pages';
+import styles from './app.module.css';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/slices/burgerSlice';
@@ -42,7 +43,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <div className={styles.app}>
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<AppHeader />}>
           <Route index element={<ConstructorPage />} />
@@ -118,7 +119,7 @@ const App = () => {
           />
         </Routes>
       )}
-    </>
+    </div>
   );
 };
 

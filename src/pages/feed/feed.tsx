@@ -8,12 +8,12 @@ import {
   getFeeds,
   selectFeedsError,
   selectFeedsIsLoading,
-  selectOrders
+  selectFeeds
 } from '../../services/slices/feedsSlice';
 
 export const Feed: FC = () => {
   const dispatch = useDispatch();
-  const orders = useSelector<TOrder[]>(selectOrders);
+  const orders = useSelector<TOrder[]>(selectFeeds);
   const isLoading = useSelector<boolean>(selectFeedsIsLoading);
   const error = useSelector<string | null>(selectFeedsError);
 

@@ -3,13 +3,18 @@ import { TIngredientsCategoryProps } from './type';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
 import { useSelector } from '../../services/store';
-import { selectConstructor } from '../../services/slices/constructorSlice';
+import {
+  selectBurgerConstructor,
+  TConstructorState
+} from '../../services/slices/constructorSlice';
 
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
 >(({ title, titleRef, ingredients }, ref) => {
-  const { bun, constructorIngredients } = useSelector(selectConstructor);
+  const { bun, constructorIngredients } = useSelector<TConstructorState>(
+    selectBurgerConstructor
+  );
   const burgerConstructor = {
     bun: bun,
     ingredients: constructorIngredients

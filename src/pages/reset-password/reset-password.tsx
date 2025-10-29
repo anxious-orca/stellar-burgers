@@ -5,9 +5,9 @@ import { ResetPasswordUI } from '@ui-pages';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   resetPassword,
-  selectError,
+  selectAuthError,
   selectIsAuthenticated,
-  selectIsLoading
+  selectAuthIsLoading
 } from '../../services/slices/userSlice';
 
 export const ResetPassword: FC = () => {
@@ -17,8 +17,8 @@ export const ResetPassword: FC = () => {
   const [token, setToken] = useState('');
 
   const isAuthenticated = useSelector<boolean>(selectIsAuthenticated);
-  const loading = useSelector<boolean>(selectIsLoading);
-  const error = useSelector<string | null>(selectError);
+  const loading = useSelector<boolean>(selectAuthIsLoading);
+  const error = useSelector<string | null>(selectAuthError);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();

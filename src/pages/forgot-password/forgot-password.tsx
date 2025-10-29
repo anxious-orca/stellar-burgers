@@ -5,9 +5,9 @@ import { ForgotPasswordUI } from '@ui-pages';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   forgotPassword,
-  selectError,
+  selectAuthError,
   selectIsAuthenticated,
-  selectIsLoading
+  selectAuthIsLoading
 } from '../../services/slices/userSlice';
 
 export const ForgotPassword: FC = () => {
@@ -17,8 +17,8 @@ export const ForgotPassword: FC = () => {
   const dispatch = useDispatch();
 
   const isAuthenticated = useSelector<boolean>(selectIsAuthenticated);
-  const loading = useSelector<boolean>(selectIsLoading);
-  const error = useSelector<string | null>(selectError);
+  const loading = useSelector<boolean>(selectAuthIsLoading);
+  const error = useSelector<string | null>(selectAuthError);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();

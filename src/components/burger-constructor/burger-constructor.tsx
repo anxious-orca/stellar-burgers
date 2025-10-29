@@ -4,7 +4,7 @@ import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   orderBurger,
-  selectConstructor,
+  selectBurgerConstructor,
   selectOrderModalData,
   selectOrderRequest,
   TConstructorState,
@@ -13,13 +13,15 @@ import {
 } from '../../services/slices/constructorSlice';
 import { useNavigate } from 'react-router-dom';
 import { selectIsAuthenticated } from '../../services/slices/userSlice';
+import { getFeeds } from '../../services/slices/feedsSlice';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuthenticated = useSelector<boolean>(selectIsAuthenticated);
-  const { bun, constructorIngredients } =
-    useSelector<TConstructorState>(selectConstructor);
+  const { bun, constructorIngredients } = useSelector<TConstructorState>(
+    selectBurgerConstructor
+  );
   const orderModalData = useSelector<TOrder | null>(selectOrderModalData);
   const orderRequest = useSelector<boolean>(selectOrderRequest);
   const error = useSelector<string | null>(selectOrderError);
@@ -39,7 +41,11 @@ export const BurgerConstructor: FC = () => {
       ...constructorIngredients.map((i) => i._id),
       constructorItems.bun._id
     ];
-    dispatch(orderBurger(ingredientIds));
+    dispatch(orderBurger(ingredientIds))
+      .unwrap()
+      .then(() => {
+        dispatch(getFeeds());
+      });
   };
 
   const closeOrderModal = () => {

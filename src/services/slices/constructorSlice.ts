@@ -81,7 +81,7 @@ export const constructorSlice = createSlice({
     }
   },
   selectors: {
-    selectConstructor: (sliceState) => sliceState,
+    selectBurgerConstructor: (sliceState) => sliceState,
     selectOrderModalData: (sliceState) => sliceState.orderModalData,
     selectOrderRequest: (sliceState) => sliceState.orderRequest,
     selectOrderError: (sliceState) => sliceState.error
@@ -115,7 +115,7 @@ export const {
 } = constructorSlice.actions;
 
 export const {
-  selectConstructor,
+  selectBurgerConstructor,
   selectOrderModalData,
   selectOrderRequest,
   selectOrderError

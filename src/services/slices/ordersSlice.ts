@@ -114,4 +114,4 @@ export const {
 
 export const { clearOrders } = ordersSlice.actions;
 
-export const feeds = ordersSlice.reducer;
+export const orders = ordersSlice.reducer;
