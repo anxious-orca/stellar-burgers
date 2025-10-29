@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getOrderByNumberApi, getOrdersApi } from '@api';
 import { TApiError, TOrder } from '@utils-types';
+import { getErrorMessage } from 'src/utils/errors';
 
 export const getOrders = createAsyncThunk<
   TOrder[],
@@ -11,10 +12,10 @@ export const getOrders = createAsyncThunk<
   try {
     const data = await getOrdersApi();
     return data;
-  } catch (err: any) {
+  } catch (err: unknown) {
     return thunkAPI.rejectWithValue({
       success: false,
-      message: err?.message || 'Не удалось загрузить ваши заказы :('
+      message: getErrorMessage(err, 'Не удалось загрузить ваши заказы :(')
     });
   }
 });
@@ -35,10 +36,10 @@ export const getOrderByNumber = createAsyncThunk<
       success: false,
       message: 'Заказ не найден'
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return thunkAPI.rejectWithValue({
       success: false,
-      message: err?.message || 'Ошибка при получении заказа'
+      message: getErrorMessage(err, 'Ошибка при получении заказа')
     });
   }
 });

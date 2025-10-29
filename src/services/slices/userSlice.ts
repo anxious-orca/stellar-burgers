@@ -13,6 +13,7 @@ import {
 } from '@api';
 import { TApiError, TUser } from '@utils-types';
 import { deleteCookie, setCookie } from '../../utils/cookie';
+import { getErrorMessage } from 'src/utils/errors';
 
 /* Async thunks */
 
@@ -26,10 +27,10 @@ export const registerUser = createAsyncThunk<
     setCookie('accessToken', res.accessToken);
     localStorage.setItem('refreshToken', res.refreshToken);
     return res.user;
-  } catch (err: any) {
+  } catch (err: unknown) {
     return thunkAPI.rejectWithValue({
       success: false,
-      message: err?.message || 'Ошибка регистрации'
+      message: getErrorMessage(err, 'Ошибка регистрации')
     });
   }
 });
@@ -44,10 +45,10 @@ export const loginUser = createAsyncThunk<
     setCookie('accessToken', res.accessToken);
     localStorage.setItem('refreshToken', res.refreshToken);
     return res.user;
-  } catch (err: any) {
+  } catch (err: unknown) {
     return thunkAPI.rejectWithValue({
       success: false,
-      message: err?.message || 'Ошибка входа'
+      message: getErrorMessage(err, 'Ошибка входа')
     });
   }
 });
@@ -91,10 +92,10 @@ export const forgotPassword = createAsyncThunk<
 >('user/forgotPassword', async (data, thunkAPI) => {
   try {
     await forgotPasswordApi(data);
-  } catch (err: any) {
+  } catch (err: unknown) {
     return thunkAPI.rejectWithValue({
       success: false,
-      message: err?.message || 'Ошибка восстановления пароля'
+      message: getErrorMessage(err, 'Ошибка восстановления пароля')
     });
   }
 });
@@ -106,10 +107,10 @@ export const resetPassword = createAsyncThunk<
 >('user/resetPassword', async (data, thunkAPI) => {
   try {
     await resetPasswordApi(data);
-  } catch (err: any) {
+  } catch (err: unknown) {
     return thunkAPI.rejectWithValue({
       success: false,
-      message: err?.message || 'Ошибка сброса пароля'
+      message: getErrorMessage(err, 'Ошибка сброса пароля')
     });
   }
 });

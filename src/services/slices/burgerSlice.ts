@@ -2,6 +2,7 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 import { TApiError, TIngredient } from '@utils-types';
+import { getErrorMessage } from 'src/utils/errors';
 
 export const getIngredients = createAsyncThunk<
   TIngredient[],
@@ -11,10 +12,10 @@ export const getIngredients = createAsyncThunk<
   try {
     const data = await getIngredientsApi();
     return data;
-  } catch (err: any) {
+  } catch (err: unknown) {
     return thunkAPI.rejectWithValue({
       success: false,
-      message: err?.message || 'Не удалось загрузить ингредиенты :('
+      message: getErrorMessage(err, 'Не удалось загрузить ингредиенты :(')
     });
   }
 });

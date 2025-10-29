@@ -2,7 +2,7 @@ import styles from './feed.module.css';
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   getFeeds,
@@ -16,6 +16,10 @@ export const Feed: FC = () => {
   const orders = useSelector<TOrder[]>(selectFeeds);
   const isLoading = useSelector<boolean>(selectFeedsIsLoading);
   const error = useSelector<string | null>(selectFeedsError);
+
+  useEffect(() => {
+    dispatch(getFeeds());
+  }, [dispatch]);
 
   if (error) {
     return (

@@ -16,7 +16,6 @@ import styles from './app.module.css';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/slices/burgerSlice';
-import { getFeeds } from '../../services/slices/feedsSlice';
 import { ProtectedRoute } from '../ProtectedRoute';
 import { getCookie } from '../../utils/cookie';
 import { getUser, setAuthChecked } from '../../services/slices/userSlice';
@@ -29,7 +28,6 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-    dispatch(getFeeds());
 
     if (getCookie('accessToken')) {
       dispatch(getUser())

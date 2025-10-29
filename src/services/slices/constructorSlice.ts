@@ -7,6 +7,7 @@ import {
   TIngredient,
   TOrder
 } from '@utils-types';
+import { getErrorMessage } from 'src/utils/errors';
 
 export const orderBurger = createAsyncThunk<
   TNewOrderResponse,
@@ -16,10 +17,10 @@ export const orderBurger = createAsyncThunk<
   try {
     const data = await orderBurgerApi(ingredientsIds);
     return data;
-  } catch (err: any) {
+  } catch (err: unknown) {
     return thunkAPI.rejectWithValue({
       success: false,
-      message: err?.message || 'Не удалось создать заказ'
+      message: getErrorMessage(err, 'Не удалось создать заказ')
     });
   }
 });
