@@ -18,6 +18,7 @@ type Story = StoryObj<typeof meta>;
 export const DefaultProfileMenu: Story = {
   args: {
     pathname: '/profile',
-    handleLogout: () => {}
+    handleLogout: () => {},
+    loading: false
   }
 };

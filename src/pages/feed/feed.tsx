@@ -1,15 +1,41 @@
+import styles from './feed.module.css';
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useDispatch, useSelector } from '../../services/store';
+import {
+  getFeeds,
+  selectFeedsError,
+  selectFeedsIsLoading,
+  selectFeeds
+} from '../../services/slices/feedsSlice';
 
 export const Feed: FC = () => {
-  /** TODO: взять переменную из стора */
-  const orders: TOrder[] = [];
+  const dispatch = useDispatch();
+  const orders = useSelector<TOrder[]>(selectFeeds);
+  const isLoading = useSelector<boolean>(selectFeedsIsLoading);
+  const error = useSelector<string | null>(selectFeedsError);
 
-  if (!orders.length) {
+  useEffect(() => {
+    dispatch(getFeeds());
+  }, [dispatch]);
+
+  if (error) {
+    return (
+      <p className={`${styles.error} text text_type_main-default pb-6`}>
+        {error}
+      </p>
+    );
+  }
+
+  if (isLoading || !orders.length) {
     return <Preloader />;
   }
 
-  <FeedUI orders={orders} handleGetFeeds={() => {}} />;
+  const handleGetFeeds = () => {
+    dispatch(getFeeds());
+  };
+
+  return <FeedUI orders={orders} handleGetFeeds={handleGetFeeds} />;
 };

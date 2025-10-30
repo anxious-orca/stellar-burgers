@@ -1,24 +1,33 @@
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-import { resetPasswordApi } from '@api';
 import { ResetPasswordUI } from '@ui-pages';
+import { useDispatch, useSelector } from '../../services/store';
+import {
+  resetPassword,
+  selectAuthError,
+  selectIsAuthenticated,
+  selectAuthIsLoading
+} from '../../services/slices/userSlice';
 
 export const ResetPassword: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
-  const [error, setError] = useState<Error | null>(null);
+
+  const isAuthenticated = useSelector<boolean>(selectIsAuthenticated);
+  const loading = useSelector<boolean>(selectAuthIsLoading);
+  const error = useSelector<string | null>(selectAuthError);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    setError(null);
-    resetPasswordApi({ password, token })
+    dispatch(resetPassword({ password, token }))
+      .unwrap()
       .then(() => {
         localStorage.removeItem('resetPassword');
         navigate('/login');
-      })
-      .catch((err) => setError(err));
+      });
   };
 
   useEffect(() => {
@@ -27,14 +36,19 @@ export const ResetPassword: FC = () => {
     }
   }, [navigate]);
 
+  if (isAuthenticated) {
+    return <Navigate to={'/profile'} />;
+  }
+
   return (
     <ResetPasswordUI
-      errorText={error?.message}
+      errorText={error ?? undefined}
       password={password}
       token={token}
       setPassword={setPassword}
       setToken={setToken}
       handleSubmit={handleSubmit}
+      loading={loading}
     />
   );
 };

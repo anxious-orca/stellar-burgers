@@ -6,17 +6,29 @@ import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC } from 'react';
+import {
+  selectIngredientsError,
+  selectIngredientsIsLoading
+} from '../../services/slices/burgerSlice';
 
 export const ConstructorPage: FC = () => {
-  /** TODO: взять переменную из стора */
-  const isIngredientsLoading = false;
+  const isIngredientsLoading = useSelector<boolean>(selectIngredientsIsLoading);
+  const error = useSelector<string | null>(selectIngredientsError);
+
+  if (error) {
+    return (
+      <p className={`${styles.error} text text_type_main-default pb-6`}>
+        {error}
+      </p>
+    );
+  }
 
   return (
-    <>
+    <main className={styles.containerMain}>
       {isIngredientsLoading ? (
         <Preloader />
       ) : (
-        <main className={styles.containerMain}>
+        <>
           <h1
             className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}
           >
@@ -26,8 +38,8 @@ export const ConstructorPage: FC = () => {
             <BurgerIngredients />
             <BurgerConstructor />
           </div>
-        </main>
+        </>
       )}
-    </>
+    </main>
   );
 };
