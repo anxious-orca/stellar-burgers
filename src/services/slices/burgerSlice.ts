@@ -1,4 +1,8 @@
-import { createSelector, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSelector,
+  createSlice,
+  createAsyncThunk
+} from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 import { TApiError, TIngredient } from '@utils-types';
 import { getErrorMessage } from '../../utils/errors';

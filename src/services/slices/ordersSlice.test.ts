@@ -1,4 +1,11 @@
-import { orders, getOrders, getOrderByNumber, clearOrders, initialState, TOrdersState } from './ordersSlice';
+import {
+  orders,
+  getOrders,
+  getOrderByNumber,
+  clearOrders,
+  initialState,
+  TOrdersState
+} from './ordersSlice';
 import { feedResponse } from '../../__mocks__/feed';
 import { orderResponse } from '../../__mocks__/order';
 import { TApiError } from '@utils-types';
@@ -47,10 +54,7 @@ describe('проверка обработки редьюсером экшено�
       selectedOrder: orderResponse.order
     };
 
-    const nextState = orders(
-      prevState,
-      getOrderByNumber.pending('', 92788)
-    );
+    const nextState = orders(prevState, getOrderByNumber.pending('', 92788));
 
     expect(nextState.isLoading).toBe(true);
     expect(nextState.error).toBeNull();
@@ -85,7 +89,7 @@ describe('проверка обработки редьюсером экшено�
     expect(nextState.error).toBe('Ошибка загрузки заказа');
     expect(nextState.isLoading).toBe(false);
   });
-  
+
   // clearOrders
   test('должен очищать заказы, выбранный заказ и ошибки', () => {
     const prevState: TOrdersState = {

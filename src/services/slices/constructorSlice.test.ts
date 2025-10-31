@@ -16,9 +16,7 @@ import {
   ingredient3,
   ingredients
 } from '../../__mocks__/ingredients';
-import {
-  orderResponse
-} from '../../__mocks__/order';
+import { orderResponse } from '../../__mocks__/order';
 import { TApiError } from '@utils-types';
 
 describe('проверка работы редьюсера конструктора бургера', () => {
@@ -118,7 +116,10 @@ describe('проверка работы редьюсера конструкто�
 
 describe('проверка обработки редьюсером экшенов, генерируемых при выполнении асинхронного запроса orderBurger', () => {
   test('должен установить orderRequest = true при orderBurger.pending', () => {
-    const nextState = burgerConstructor(initialState, orderBurger.pending('', []));
+    const nextState = burgerConstructor(
+      initialState,
+      orderBurger.pending('', [])
+    );
     expect(nextState.orderRequest).toBe(true);
     expect(nextState.error).toBeNull();
   });
