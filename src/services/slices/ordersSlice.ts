@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getOrderByNumberApi, getOrdersApi } from '@api';
 import { TApiError, TOrder } from '@utils-types';
 import { getErrorMessage } from '../../utils/errors';
@@ -51,7 +50,7 @@ export type TOrdersState = {
   error: string | null;
 };
 
-const initialState: TOrdersState = {
+export const initialState: TOrdersState = {
   orders: [],
   selectedOrder: null,
   isLoading: false,

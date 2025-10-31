@@ -1,4 +1,4 @@
-import { burger, getIngredients } from './burgerSlice';
+import { burger, getIngredients, initialState } from './burgerSlice';
 import {
   bun,
   ingredient1,
@@ -6,10 +6,9 @@ import {
   ingredient3,
   burgerParts
 } from '../../__mocks__/ingredients';
-import { initialState } from './burgerSlice';
 import { TApiError, TIngredient } from '@utils-types';
 
-describe('проверка обработки редьюсером экшенов генерируемых при выполнении асинхронного запроса', () => {
+describe('проверка обработки редьюсером экшенов генерируемых при выполнении асинхронного запроса getIngredients', () => {
   test('должен установить isLoading = true при getIngredients.pending', () => {
     const nextState = burger(
       initialState,
@@ -51,6 +50,8 @@ describe('проверка обработки редьюсером экшено�
   test('если rejected без payload, устанавливается сообщение по умолчанию', () => {
     const action = getIngredients.rejected(null, '', undefined);
     const nextState = burger(initialState, action);
+
     expect(nextState.error).toBe('Не удалось загрузить ингредиенты :(');
+    expect(nextState.isLoading).toBe(false);
   });
 });

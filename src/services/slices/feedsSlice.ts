@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeedsApi, TFeedsResponse } from '@api';
 import { TApiError, TOrder } from '@utils-types';
 import { getErrorMessage } from '../../utils/errors';
@@ -30,7 +29,7 @@ export type TFeedsState = {
   error: string | null;
 };
 
-const initialState: TFeedsState = {
+export const initialState: TFeedsState = {
   orders: [],
   total: {
     total: 0,

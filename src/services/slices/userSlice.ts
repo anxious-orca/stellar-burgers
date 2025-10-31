@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
   forgotPasswordApi,
   getUserApi,
@@ -125,7 +124,7 @@ export type TUserState = {
   loading: boolean;
 };
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   data: null,
   isAuthenticated: false,
   isAuthChecked: false,
