@@ -5,7 +5,7 @@ import {
   moveIngredientUp,
   moveIngredientDown
 } from './constructorSlice';
-import type { TConstructorState } from './constructorSlice';
+import { initialState } from './constructorSlice';
 import {
   bun,
   ingredient1,
@@ -15,18 +15,6 @@ import {
 } from '../../__mocks__/ingredients';
 
 describe('проверка работы редьюсера конструктора бургера', () => {
-  let initialState: TConstructorState;
-
-  beforeEach(() => {
-    initialState = {
-      bun: null,
-      constructorIngredients: [],
-      orderRequest: false,
-      orderModalData: null,
-      error: null
-    };
-  });
-
   test('добавление ингредиента', () => {
     // Добавить булку
     let state = burgerConstructor(initialState, addIngredient(bun));

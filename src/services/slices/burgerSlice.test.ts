@@ -6,22 +6,10 @@ import {
   ingredient3,
   burgerParts
 } from '../../__mocks__/ingredients';
-import type { TBurgerState } from './burgerSlice';
+import { initialState } from './burgerSlice';
 import { TApiError, TIngredient } from '@utils-types';
 
 describe('проверка обработки редьюсером экшенов генерируемых при выполнении асинхронного запроса', () => {
-  let initialState: TBurgerState;
-
-  beforeEach(() => {
-    initialState = {
-      buns: [],
-      mains: [],
-      sauces: [],
-      isLoading: false,
-      error: null
-    };
-  });
-
   test('должен установить isLoading = true при getIngredients.pending', () => {
     const nextState = burger(
       initialState,

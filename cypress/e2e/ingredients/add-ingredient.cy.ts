@@ -1,4 +1,4 @@
-import { apiUrl } from "../../support/constants";
+import { apiUrl, selectors } from "../../support/constants";
 
 describe('проверяем сборку бургера', () => {
   beforeEach(() => {
@@ -6,7 +6,7 @@ describe('проверяем сборку бургера', () => {
       fixture: 'ingredients.json'
     }).as('getIngredients');
 
-    cy.visit('http://localhost:4000');
+    cy.visit('dashboard');
 
     cy.wait('@getIngredients').then((interception) => {
         expect(interception.response?.body).to.exist;
@@ -16,40 +16,40 @@ describe('проверяем сборку бургера', () => {
 
   it('добавление ингредиента из списка в конструктор', () => {
     // Добавляем булку
-    cy.get('[data-cy="ingredient-card"]')
+    cy.get(selectors.ingredientCard)
       .contains('Краторная булка N-200i')
-      .closest('[data-cy="ingredient-card"]')
-      .find('[data-cy="add-ingredient-button"]')
+      .closest(selectors.ingredientCard)
+      .find(selectors.addIngredientButton)
       .click();
 
     // Добавляем начинку
-    cy.get('[data-cy="ingredient-card"]')
+    cy.get(selectors.ingredientCard)
       .contains('Мясо бессмертных моллюсков Protostomia')
-      .closest('[data-cy="ingredient-card"]')
-      .find('[data-cy="add-ingredient-button"]')
+      .closest(selectors.ingredientCard)
+      .find(selectors.addIngredientButton)
       .click();
 
     // Проверяем счетчик на булке
-    cy.get('[data-cy="ingredient-card"]')
+    cy.get(selectors.ingredientCard)
         .contains('Краторная булка N-200i')
-        .closest('[data-cy="ingredient-card"]')
-        .find('[data-cy="ingredient-counter"]')
+        .closest(selectors.ingredientCard)
+        .find(selectors.ingredientCounter)
         .should('have.text', '2');
 
     // Проверяем счетчик на игредиенте
-    cy.get('[data-cy="ingredient-card"]')
+    cy.get(selectors.ingredientCard)
         .contains('Мясо бессмертных моллюсков Protostomia')
-        .closest('[data-cy="ingredient-card"]')
-        .find('[data-cy="ingredient-counter"]')
+        .closest(selectors.ingredientCard)
+        .find(selectors.ingredientCounter)
         .should('have.text', '1');
 
     // Проверяем, что конструктор содержит добавленные ингредиенты
     cy.get('[data-cy="burger-constructor"]').within(() => {
-      cy.get('[data-cy="burger-constructor-bun-container-top"]')
+      cy.get(selectors.bunContainerTop)
         .should('contain', 'Краторная булка N-200i');
-      cy.get('[data-cy="burger-constructor-ingredient-container"]')
+      cy.get(selectors.ingredientContainer)
         .should('contain', 'Мясо бессмертных моллюсков Protostomia');
-      cy.get('[data-cy="burger-constructor-bun-container-bottom"]')
+      cy.get(selectors.bunContainerBottom)
         .should('contain', 'Краторная булка N-200i');
     });
   });

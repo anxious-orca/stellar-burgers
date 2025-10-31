@@ -9,6 +9,7 @@ export default defineConfig({
     },
     env: {
       BURGER_API_URL: process.env.BURGER_API_URL
-    }
+    },
+    baseUrl: 'http://localhost:4000/#/',
   },
 });

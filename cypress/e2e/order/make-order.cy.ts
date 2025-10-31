@@ -1,4 +1,4 @@
-import { apiUrl } from "../../support/constants";
+import { apiUrl, selectors } from "../../support/constants";
 
 describe('проверяем оформление заказа', () => {
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('проверяем оформление заказа', () => {
       fixture: 'order.json'
     }).as('orderBurger');
 
-    cy.visit('http://localhost:4000');
+    cy.visit('dashboard');
 
     cy.wait('@getIngredients').then((interception) => {
         expect(interception.response?.body).to.exist;
@@ -37,22 +37,22 @@ describe('проверяем оформление заказа', () => {
 
   it('добавляем ингредиенты и делаем заказ', () => {
     // Добавляем булку
-    cy.get('[data-cy="ingredient-card"]')
+    cy.get(selectors.ingredientCard)
       .contains('Краторная булка N-200i')
-      .closest('[data-cy="ingredient-card"]')
-      .find('[data-cy="add-ingredient-button"]')
+      .closest(selectors.ingredientCard)
+      .find(selectors.addIngredientButton)
       .click();
 
     // Добавляем начинку
-    cy.get('[data-cy="ingredient-card"]')
+    cy.get(selectors.ingredientCard)
       .contains('Мини-салат Экзо-Плантаго')
-      .closest('[data-cy="ingredient-card"]')
-      .find('[data-cy="add-ingredient-button"]')
+      .closest(selectors.ingredientCard)
+      .find(selectors.addIngredientButton)
       .click();
     
     // Оформляем заказ
-    cy.get('[data-cy="burger-constructor"]')
-      .find('[data-cy="make-order-button"]')
+    cy.get(selectors.burgerConstructor)
+      .find(selectors.makeOrderButton)
       .click();
 
     // Ждем ответа
@@ -62,25 +62,25 @@ describe('проверяем оформление заказа', () => {
         const orderNumber = interception.response?.body.order.number;
 
         // Проверяем что модальное окно открылось
-        cy.get('[data-cy="modal"]').should('exist');
+        cy.get(selectors.modal).should('exist');
 
         // Проверяем что модальное окно правильное
-        cy.get('[data-cy="modal"]')
+        cy.get(selectors.modal)
           .contains('идентификатор заказа')
 
         // Проверяем что номер заказа верный
-        cy.get('[data-cy="modal"]')
-          .find('[data-cy="order-number-container"]')
+        cy.get(selectors.modal)
+          .find(selectors.orderNumberContainer)
           .should('contain', orderNumber);
 
         // Закрываем модальное окно
-        cy.get('[data-cy="modal-close-button"]').click();
-        cy.get('[data-cy="modal"]').should('not.exist');
+        cy.get(selectors.modalCloseButton).click();
+        cy.get(selectors.modal).should('not.exist');
 
         // Проверям что конструктор бургера очистился
-        cy.get('[data-cy="burger-constructor-bun-container-top"]').should('not.exist');
-        cy.get('[data-cy="burger-constructor-ingredient-container"]').should('contain.text', 'Выберите начинку');
-        cy.get('[data-cy="burger-constructor-bun-container-bottom"]').should('not.exist');
+        cy.get(selectors.bunContainerTop).should('not.exist');
+        cy.get(selectors.ingredientContainer).should('contain.text', 'Выберите начинку');
+        cy.get(selectors.bunContainerBottom).should('not.exist');
     });
   });
 });

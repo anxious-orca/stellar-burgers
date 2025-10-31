@@ -28,7 +28,7 @@ export type TBurgerState = {
   error: string | null;
 };
 
-const initialState: TBurgerState = {
+export const initialState: TBurgerState = {
   buns: [],
   mains: [],
   sauces: [],

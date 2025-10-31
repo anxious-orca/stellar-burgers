@@ -1,4 +1,4 @@
-import { apiUrl } from "../../support/constants";
+import { apiUrl, selectors } from "../../support/constants";
 
 describe('проверяем модальное окно ингредиента', () => {
   beforeEach(() => {
@@ -6,7 +6,7 @@ describe('проверяем модальное окно ингредиента'
       fixture: 'ingredients.json'
     }).as('getIngredients');
 
-    cy.visit('http://localhost:4000');
+    cy.visit('dashboard');
 
     cy.wait('@getIngredients').then((interception) => {
         expect(interception.response?.body).to.exist;
@@ -16,23 +16,23 @@ describe('проверяем модальное окно ингредиента'
 
   it('открытие и закрытие модального окна', () => {
     // Открываем модально окно
-    cy.get('[data-cy="ingredient-card"]')
+    cy.get(selectors.ingredientCard)
       .contains('Краторная булка N-200i')
-      .closest('[data-cy="ingredient-card"]')
-      .find('[data-cy="ingredient-card-image"]')
+      .closest(selectors.ingredientCard)
+      .find(selectors.ingredientImage)
       .click();
 
     // Проверяем что модальное окно открылось
-    cy.get('[data-cy="modal"]').should('exist');
+    cy.get(selectors.modal).should('exist');
 
     // Проверяем что модальное окно правильное
-    cy.get('[data-cy="modal"]')
+    cy.get(selectors.modal)
       .contains('Краторная булка N-200i')
 
     // Закрываем модальное окно
-    cy.get('[data-cy="modal-close-button"]').click();
+    cy.get(selectors.modalCloseButton).click();
 
     // Проверяем что модальное окно закрылось
-    cy.get('[data-cy="modal"]').should('not.exist');
+    cy.get(selectors.modal).should('not.exist');
   });
 });
