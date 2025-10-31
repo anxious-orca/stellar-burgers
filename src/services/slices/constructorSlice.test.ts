@@ -1,6 +1,18 @@
-import { burgerConstructor, addIngredient, removeIngredient, moveIngredientUp, moveIngredientDown } from './constructorSlice';
+import {
+  burgerConstructor,
+  addIngredient,
+  removeIngredient,
+  moveIngredientUp,
+  moveIngredientDown
+} from './constructorSlice';
 import type { TConstructorState } from './constructorSlice';
-import { bun, ingredient1, ingredient2, ingredient3, ingredients } from '../../__mocks__/ingredients';
+import {
+  bun,
+  ingredient1,
+  ingredient2,
+  ingredient3,
+  ingredients
+} from '../../__mocks__/ingredients';
 
 describe('проверка работы редьюсера конструктора бургера', () => {
   let initialState: TConstructorState;

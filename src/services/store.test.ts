@@ -12,7 +12,7 @@ describe('rootReducer', () => {
     feeds: feeds,
     user: user,
     orders: orders
-});
+  });
 
   test('возвращает корректное начальное состояние хранилища при undefined state и неизвестном экшене', () => {
     const state = rootReducer(undefined, { type: 'UNKNOWN_ACTION' });

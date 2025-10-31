@@ -1,5 +1,11 @@
 import { burger, getIngredients } from './burgerSlice';
-import { bun, ingredient1, ingredient2, ingredient3, burgerParts } from '../../__mocks__/ingredients';
+import {
+  bun,
+  ingredient1,
+  ingredient2,
+  ingredient3,
+  burgerParts
+} from '../../__mocks__/ingredients';
 import type { TBurgerState } from './burgerSlice';
 import { TApiError, TIngredient } from '@utils-types';
 
@@ -17,7 +23,10 @@ describe('проверка обработки редьюсером экшено�
   });
 
   test('должен установить isLoading = true при getIngredients.pending', () => {
-    const nextState = burger(initialState, getIngredients.pending('', undefined));
+    const nextState = burger(
+      initialState,
+      getIngredients.pending('', undefined)
+    );
     expect(nextState.isLoading).toBe(true);
     expect(nextState.error).toBeNull();
   });
@@ -40,12 +49,10 @@ describe('проверка обработки редьюсером экшено�
 
   test('должен записать ошибку и установить isLoading = false при getIngredients.rejected', () => {
     const errorMessage = 'Ошибка при загрузке ингредиентов';
-    const action = getIngredients.rejected(
-      null,
-      '',
-      undefined,
-      { success: false, message: errorMessage } as TApiError
-    );
+    const action = getIngredients.rejected(null, '', undefined, {
+      success: false,
+      message: errorMessage
+    } as TApiError);
 
     const nextState = burger(initialState, action);
 

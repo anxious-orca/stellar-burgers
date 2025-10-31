@@ -60,5 +60,14 @@ export const ingredient3: TConstructorIngredient = {
   id: '3'
 };
 
-export const ingredients: TConstructorIngredient[] = [ingredient1, ingredient2, ingredient3];
-export const burgerParts: TConstructorIngredient[] = [bun, ingredient1, ingredient2, ingredient3];
+export const ingredients: TConstructorIngredient[] = [
+  ingredient1,
+  ingredient2,
+  ingredient3
+];
+export const burgerParts: TConstructorIngredient[] = [
+  bun,
+  ingredient1,
+  ingredient2,
+  ingredient3
+];

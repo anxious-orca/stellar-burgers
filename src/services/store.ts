@@ -1,7 +1,4 @@
-import {
-  combineReducers,
-  configureStore
-} from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import {
   TypedUseSelectorHook,
