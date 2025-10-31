@@ -1,4 +1,4 @@
-const apiUrl = Cypress.env('BURGER_API_URL');
+import { apiUrl } from "../../support/constants";
 
 describe('проверяем сборку бургера', () => {
   beforeEach(() => {

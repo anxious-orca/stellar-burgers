@@ -1,0 +1,1 @@
+export const apiUrl = Cypress.env('BURGER_API_URL');
