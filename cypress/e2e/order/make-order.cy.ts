@@ -30,6 +30,11 @@ describe('проверяем оформление заказа', () => {
     });
   });
 
+  afterEach(() => {
+    cy.clearCookie('accessToken');
+    cy.clearLocalStorage('refreshToken');
+  });
+
   it('добавляем ингредиенты и делаем заказ', () => {
     // Добавляем булку
     cy.get('[data-cy="ingredient-card"]')

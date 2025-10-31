@@ -51,7 +51,7 @@ export type TOrdersState = {
   error: string | null;
 };
 
-const initialOrdersState: TOrdersState = {
+const initialState: TOrdersState = {
   orders: [],
   selectedOrder: null,
   isLoading: false,
@@ -60,7 +60,7 @@ const initialOrdersState: TOrdersState = {
 
 export const ordersSlice = createSlice({
   name: 'orders',
-  initialState: initialOrdersState,
+  initialState,
   reducers: {
     clearOrders: (state) => {
       state.orders = [];

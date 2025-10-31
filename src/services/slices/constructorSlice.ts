@@ -33,7 +33,7 @@ export type TConstructorState = {
   error: string | null;
 };
 
-const initialConstructorState: TConstructorState = {
+const initialState: TConstructorState = {
   bun: null,
   constructorIngredients: [],
   orderRequest: false,
@@ -43,7 +43,7 @@ const initialConstructorState: TConstructorState = {
 
 export const constructorSlice = createSlice({
   name: 'burgerConstructor',
-  initialState: initialConstructorState,
+  initialState,
   reducers: {
     addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
       if (action.payload.type === 'bun') {

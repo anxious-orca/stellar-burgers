@@ -28,7 +28,7 @@ export type TBurgerState = {
   error: string | null;
 };
 
-const initialBurgerState: TBurgerState = {
+const initialState: TBurgerState = {
   buns: [],
   mains: [],
   sauces: [],
@@ -38,7 +38,7 @@ const initialBurgerState: TBurgerState = {
 
 export const burgerSlice = createSlice({
   name: 'burger',
-  initialState: initialBurgerState,
+  initialState,
   reducers: {},
   selectors: {
     selectBuns: (sliceState) => sliceState.buns,

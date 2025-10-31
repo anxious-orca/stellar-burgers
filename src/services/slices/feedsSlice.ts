@@ -30,7 +30,7 @@ export type TFeedsState = {
   error: string | null;
 };
 
-const initialFeedsState: TFeedsState = {
+const initialState: TFeedsState = {
   orders: [],
   total: {
     total: 0,
@@ -42,7 +42,7 @@ const initialFeedsState: TFeedsState = {
 
 export const feedsSlice = createSlice({
   name: 'feeds',
-  initialState: initialFeedsState,
+  initialState,
   reducers: {},
   selectors: {
     selectFeeds: (sliceState) => sliceState.orders,

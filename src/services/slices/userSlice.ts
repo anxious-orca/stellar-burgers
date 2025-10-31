@@ -125,7 +125,7 @@ export type TUserState = {
   loading: boolean;
 };
 
-const initialUserState: TUserState = {
+const initialState: TUserState = {
   data: null,
   isAuthenticated: false,
   isAuthChecked: false,
@@ -135,7 +135,7 @@ const initialUserState: TUserState = {
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState: initialUserState,
+  initialState,
   reducers: {
     setAuthChecked(state, action) {
       state.isAuthChecked = action.payload;
