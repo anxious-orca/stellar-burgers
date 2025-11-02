@@ -54,7 +54,7 @@
   list-style: none;
   padding: 0;
   overflow-y: auto;
-  max-height: 320px;
+  max-height: 200px;
 }
 
 .list::-webkit-scrollbar {
