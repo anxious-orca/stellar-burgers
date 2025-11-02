@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { orderBurgerApi, TNewOrderResponse } from '@api';
 import {
   TApiError,
@@ -33,7 +32,7 @@ export type TConstructorState = {
   error: string | null;
 };
 
-const initialConstructorState: TConstructorState = {
+export const initialState: TConstructorState = {
   bun: null,
   constructorIngredients: [],
   orderRequest: false,
@@ -43,7 +42,7 @@ const initialConstructorState: TConstructorState = {
 
 export const constructorSlice = createSlice({
   name: 'burgerConstructor',
-  initialState: initialConstructorState,
+  initialState,
   reducers: {
     addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
       if (action.payload.type === 'bun') {

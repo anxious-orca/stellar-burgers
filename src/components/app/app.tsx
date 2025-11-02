@@ -92,7 +92,7 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title={''} onClose={() => navigate(-1)}>
+              <Modal title={'Детали заказа'} onClose={() => navigate(-1)}>
                 <OrderInfo />
               </Modal>
             }
@@ -100,7 +100,7 @@ const App = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title={''} onClose={() => navigate(-1)}>
+              <Modal title={'Детали ингредиента'} onClose={() => navigate(-1)}>
                 <IngredientDetails />
               </Modal>
             }
@@ -108,7 +108,7 @@ const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title={''} onClose={() => navigate(-1)}>
+              <Modal title={'Детали заказа'} onClose={() => navigate(-1)}>
                 <ProtectedRoute>
                   <OrderInfo />
                 </ProtectedRoute>

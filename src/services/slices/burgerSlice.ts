@@ -1,5 +1,8 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSelector,
+  createSlice,
+  createAsyncThunk
+} from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 import { TApiError, TIngredient } from '@utils-types';
 import { getErrorMessage } from '../../utils/errors';
@@ -28,7 +31,7 @@ export type TBurgerState = {
   error: string | null;
 };
 
-const initialBurgerState: TBurgerState = {
+export const initialState: TBurgerState = {
   buns: [],
   mains: [],
   sauces: [],
@@ -38,7 +41,7 @@ const initialBurgerState: TBurgerState = {
 
 export const burgerSlice = createSlice({
   name: 'burger',
-  initialState: initialBurgerState,
+  initialState,
   reducers: {},
   selectors: {
     selectBuns: (sliceState) => sliceState.buns,
